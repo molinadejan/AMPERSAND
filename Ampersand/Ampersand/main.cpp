@@ -12,6 +12,9 @@ void gotoxy(int x, int y)
 	COORD pos;
 	pos.X = x;
 	pos.Y = y;
+
+	// 테스트 내용
+
 	SetConsoleCursorPosition(consoleHandle, pos);
 }
 
