@@ -10,7 +10,7 @@ void CursorGoToXY(const int x, const int y);
 void PrintStringAtXY(const int x, const int y, const std::string &str);
 
 void InitMainMenuString(void);
-void InitStageString(void);
+void InitStage(void);
 
 void PrintMainMenu(void);
 void PrintStage(void);

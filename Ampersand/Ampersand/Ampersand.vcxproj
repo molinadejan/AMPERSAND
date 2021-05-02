@@ -153,6 +153,8 @@
   <ItemGroup>
     <ClCompile Include="CoordData.cpp" />
     <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayStage.cpp" />
     <ClCompile Include="PrintScreen.cpp" />
     <ClCompile Include="InitSettings.cpp" />
     <ClCompile Include="main.cpp" />
@@ -162,6 +164,8 @@
     <ClInclude Include="CoordData.h" />
     <ClInclude Include="InitSettings.h" />
     <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayStage.h" />
     <ClInclude Include="PrintScreen.h" />
     <ClInclude Include="UserInput.h" />
   </ItemGroup>

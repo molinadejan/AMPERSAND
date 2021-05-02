@@ -4,6 +4,8 @@
 #include "UserInput.h"
 #include "PrintScreen.h"
 #include "MainMenu.h"
+#include "Player.h"
+#include "PlayStage.h"
 
 using namespace std;
 
@@ -15,12 +17,7 @@ int main(void)
 	// 각종 화면 데이터로 저장
 	InitPrintScreen();
 
-	PrintStage();
-
-	while (true)
-	{
-		Sleep(32);
-	}
+	UpdatePlayStage();
 
 	return 0;
 }
