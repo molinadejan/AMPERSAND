@@ -151,13 +151,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CoordData.cpp" />
+    <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="PrintScreen.cpp" />
     <ClCompile Include="InitSettings.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="UserInput.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CoordData.h" />
     <ClInclude Include="InitSettings.h" />
+    <ClInclude Include="MainMenu.h" />
     <ClInclude Include="PrintScreen.h" />
     <ClInclude Include="UserInput.h" />
   </ItemGroup>

@@ -1,57 +1,77 @@
 #include "UserInput.h"
 
+#define CNT_MAX 1000000000
+
 enum KEYBOARD
 {
 	UP = 72,
+	LEFT = 75,
+	RIGHT = 77,
 	DOWN = 80,
+
 	MAGICKEY = 224,
-	KEYUP = 0x1
+	KEYCHECK = 0x8000
 };
 
-// Left, Right Arrow Input
-int GetInputLR(void)
+// Left, Right Arrow Input for control player
+int GetInputLRForPlayer(void)
 {
 	int ret = 0;
 
-	if (GetAsyncKeyState(VK_RIGHT) & 0x8000 || GetAsyncKeyState(VK_RIGHT) & 0x8001)
+	if (GetAsyncKeyState(VK_RIGHT) & KEYCHECK)
 		ret = 1;
-	else if (GetAsyncKeyState(VK_LEFT) & 0x8000 || GetAsyncKeyState(VK_LEFT) & 0x8001)
+	else if (GetAsyncKeyState(VK_LEFT) & KEYCHECK)
 		ret = -1;
 
 	return ret;
 }
 
-// Up, Down Arrow Input
-int GetInputUD(void)
+int justOneInputForLR = 0;
+
+// Left, Right Arrow Input for UI
+int GetInputLRForUI(void)
 {
 	int ret = 0;
 
-	int input = _getch();
-	
-	if (input == MAGICKEY)
+	if (GetAsyncKeyState(VK_RIGHT) & KEYCHECK)
+		ret = 1;
+	else if (GetAsyncKeyState(VK_LEFT) & KEYCHECK)
+		ret = -1;
+
+	if (ret)
 	{
-		switch (_getch())
-		{
-			case UP:
-				ret = 1;
-				break;
+		++justOneInputForLR;
 
-			case DOWN:
-				ret = -1;
-				break;
-		}
+		if (justOneInputForLR > CNT_MAX)
+			justOneInputForLR = 2;
 	}
+	else justOneInputForLR = 0;
 
-	return ret;
+	if (ret && justOneInputForLR == 1) return ret;
+
+	return 0;
 }
+
+int justOneInputForSpace = 0;
 
 // Space Input
 bool GetInputSpace(void)
 {
-	bool ret = false;
+	bool check = false;
 
-	if (GetAsyncKeyState(VK_SPACE) & KEYUP)
-		ret = true;
+	if (GetAsyncKeyState(VK_SPACE) & KEYCHECK)
+		check = true;
 
-	return ret;
+	if (check)
+	{
+		++justOneInputForSpace;
+
+		if (justOneInputForSpace > CNT_MAX)
+			justOneInputForSpace = 2;
+	}
+	else justOneInputForSpace = 0;
+
+	if (check && justOneInputForSpace) return true;
+
+	return false;
 }

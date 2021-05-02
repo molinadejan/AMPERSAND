@@ -3,6 +3,6 @@
 #include <Windows.h>
 #include <conio.h>
 
-int GetInputLR(void);
-int GetInputUD(void);
+int GetInputLRForPlayer(void);
+int GetInputLRForUI(void);
 bool GetInputSpace(void);
