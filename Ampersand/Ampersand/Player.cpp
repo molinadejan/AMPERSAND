@@ -54,13 +54,14 @@ void ChangeXPos(void)
 	{
 		xPosDouble += xVelocity * t * t / 2;
 
-		for (int i = (int)xPosDouble; i <= curPos.x; ++i)
+		for (int i = curPos.x; i >= (int)xPosDouble; --i)
 		{
-			if (!CheckGround(i + 4))
+			if (CheckGround(i - 4))
 			{
-				curPos.x = i;
+				xVelocity = 0;
 				break;
 			}
+			else curPos.x = i;
 		}
 	}
 	else
