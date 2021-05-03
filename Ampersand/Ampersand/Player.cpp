@@ -9,6 +9,7 @@ const std::string player[2][5] = { {"&&&&","&&&&","&&&&","&&&&","&&&&"}, {"    "
 const double gravity = 98 * 2;
 const double t = 32 / 1000.0;
 const double accel = gravity;
+const double jumpPower = -3000;
 
 // World Position
 const coord INITPOS = { 30, 2 };
@@ -41,19 +42,26 @@ void ChangeXPos(void)
 	{
 		xPosDouble += xVelocity * t * t / 2;
 		
-		for (int i = (int)xPosDouble; i >= curPos.x; --i)
+		for (int i = curPos.x; i <= (int)xPosDouble; ++i)
 		{
-			if (!CheckGround(i))
+			if (CheckGround(i))
+				break;
+			else
+				curPos.x = i;
+		}
+	}
+	else if (xVelocity < 0)
+	{
+		xPosDouble += xVelocity * t * t / 2;
+
+		for (int i = (int)xPosDouble; i <= curPos.x; ++i)
+		{
+			if (!CheckGround(i + 4))
 			{
 				curPos.x = i;
 				break;
 			}
 		}
-	}
-	else if (xVelocity < 0)
-	{
-		//xPosDouble += xVelocity * t * t / 2;
-
 	}
 	else
 	{
@@ -101,6 +109,11 @@ bool CheckGround(int xPos)
 	return false;
 }
 
+void Jump(void)
+{
+	xVelocity = jumpPower;
+}
+
 void UpdatePlayer(void)
 {
 	//PrintStringAtXY(0, 0, std::to_string(xPosDouble));
@@ -111,9 +124,11 @@ void UpdatePlayer(void)
 
 	ChangeYPos(GetInputLRForPlayer());
 	GetGravity();
+
+	if (GetInputSpace())
+		Jump();
+
 	ChangeXPos();
 
 	PrintPlayer(0);
 }
-
-//PrintStringAtXY(0, 0, std::to_string(curPos.x));
