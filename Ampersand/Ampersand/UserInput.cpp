@@ -71,7 +71,7 @@ bool GetInputSpace(void)
 	}
 	else justOneInputForSpace = 0;
 
-	if (check && justOneInputForSpace) return true;
+	if (check && justOneInputForSpace == 1) return true;
 
 	return false;
 }
