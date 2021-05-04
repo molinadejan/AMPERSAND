@@ -4,76 +4,59 @@
 #include "PlayStage.h"
 #include "UserInput.h"
 
-const std::string player[2][5] = { {"&&&&","&&&&","&&&&","&&&&","&&&&"}, {"    ", "    ", "    ", "    ", "    "} };
+// player row = 5;
+// player col = 4;
 
-const double gravity = 500;
-const double t = 32 / 1000.0;
-const double accel = gravity;
-const double jumpPower = -4000;
+const std::string player[2][5] = { {"....","....","....","_  _","...."}, {"    ", "    ", "    ", "    ", "    "} };
 
-// World Position
-const coord INITPOS = { 30, 2 };
+const double GRAVITY = 500;
+const double T = UPDATE_CYCLE / 1000.0;
+const double JUMP_POWER = -4000;
 
-// World Position
-coord curPos;
-
-double xVelocity;
-double xPosDouble;
-
-int jumpCnt;
-
-// Player is 5 X 4
-void InitPlayer(void)
+void PrintPlayer(playerData& data, int mode)
 {
-	curPos = INITPOS;
-	xPosDouble = INITPOS.x;
-	xVelocity = 0;
-	jumpCnt = 0;
-}
+	COORD screenCoord = WorldToScreen(data.pos);
 
-void PrintPlayer(int mode)
-{
-	coord screenCoord = WorldToScreen(curPos);
+	if(mode == 0)
+		SetColor(GREEN_L, GREEN);
 
 	for (int i = 0; i < 5; ++i)
-		PrintStringAtXY(screenCoord.x, screenCoord.y - i, player[mode][i]);
+		PrintStringAtXY(screenCoord.X, screenCoord.Y - i, player[mode][i]);
+
+	SetColor(WHITE, BLACK);
 }
 
-void ChangeXPos(void)
+void ChangeXPos(playerData& data)
 {
-	if (xVelocity > 0)
+	if (data.xVelocity > 0)
 	{
-		xPosDouble += xVelocity * t * t / 2;
+		data.xPosDouble += data.xVelocity * T * T / 2;
 		
-		for (int i = curPos.x; i <= (int)xPosDouble; ++i)
+		for (int i = data.pos.X; i <= (int)data.xPosDouble; ++i)
 		{
-			if (CheckGround(i))
+			if (CheckGround(data, i))
 				break;
-			else
-				curPos.x = i;
+			else data.pos.X = i;
 		}
 	}
-	else if (xVelocity < 0)
+	else if (data.xVelocity < 0)
 	{
-		xPosDouble += xVelocity * t * t / 2;
+		data.xPosDouble += data.xVelocity * T * T / 2;
 
-		for (int i = curPos.x; i >= (int)xPosDouble; --i)
+		for (int i = data.pos.X; i >= (int)data.xPosDouble; --i)
 		{
-			if (CheckGround(i - 4))
+			if (CheckGround(data, i - 4))
 			{
-				xVelocity = 0;
+				data.xVelocity = 0;
 				break;
 			}
-			else curPos.x = i;
+			else data.pos.X = i;
 		}
 	}
-	else
-	{
-		xPosDouble = curPos.x;
-	}
+	else data.xPosDouble = data.pos.X;
 }
 
-void ChangeYPos(int yDir)
+void ChangeYPos(playerData& data, int yDir)
 {
 	int dir;
 
@@ -83,62 +66,76 @@ void ChangeYPos(int yDir)
 	
 	for (int i = 0; i < 5; ++i)
 	{
-		if (GetStageInfo(curPos.x - i, curPos.y + dir) == '@')
+		if (GetStageInfo(data.pos.X - i, data.pos.Y + dir) == GROUND)
 			return;
 	}
 
-	curPos.y += yDir;
-	
-	/*curPos.x = curPos.x < 5 ? 5 : curPos.x;
-	curPos.x = curPos.x > 98 ? 98 : curPos.x;
-
-	curPos.y = curPos.y < 1 ? 1 : curPos.y;
-	curPos.y = curPos.y > 219 ? 219 : curPos.y;*/
+	data.pos.Y += yDir;
 }
 
-void GetGravity(void)
+void GetGravity(playerData& data)
 {
-	if (CheckGround(curPos.x + 1) && xVelocity >= 0)
+	if (CheckGround(data, data.pos.X + 1) && data.xVelocity >= 0)
 	{
-		xVelocity = 0;
-		jumpCnt = 0;
+		data.xVelocity = 0;
+		data.jumpCnt = 0;
 	}
-	else xVelocity += accel;
+	else data.xVelocity += GRAVITY;
 }
 
-bool CheckGround(int xPos)
+bool CheckGround(playerData& data, int xPos)
 {
 	for (int i = 0; i < 4; ++i)
-		if (GetStageInfo(xPos, curPos.y + i) == '@')
+		if (GetStageInfo(xPos, data.pos.Y + i) == GROUND)
 			return true;
 
 	return false;
 }
 
-void Jump(void)
+void Jump(playerData& data)
 {
-	if (jumpCnt < 3)
+	if (data.jumpCnt < 3)
 	{
-		++jumpCnt;
-		xVelocity = jumpPower;
+		++data.jumpCnt;
+		data.xVelocity = JUMP_POWER;
 	}
 }
 
-void UpdatePlayer(void)
+int CheckCollision(playerData& data)
 {
-	PrintStringAtXY(0, 0, std::to_string(jumpCnt));
-	//PrintStringAtXY(0, 1, std::to_string(curPos.x));
-	//PrintStringAtXY(0, 1, std::to_string(xVelocity));
+	int ret = 0;
 
-	PrintPlayer(1);
+	for (int i = data.pos.X; i > data.pos.X - 5; --i)
+	{
+		for (int j = data.pos.Y; j < data.pos.Y + 4; ++j)
+		{
+			if (GetStageInfo(i, j) == OBSTACLE)
+			{
+				PrintStringAtXY(3, 9, "GAME OVER");
+				return - 1;
+			}
+			else if (GetStageInfo(i, j) == COIN)
+			{
+				SetStageInfo(i, j, ' ');
+				++ret;
+			}
+		}
+	}
 
-	ChangeYPos(GetInputLRForPlayer());
-	GetGravity();
+	return ret;
+}
+
+void UpdatePlayer(playerData& data)
+{
+	PrintPlayer(data, 1);
+
+	ChangeYPos(data, GetInputLRForPlayer());
+	GetGravity(data);
 
 	if (GetInputSpace())
-		Jump();
+		Jump(data);
 
-	ChangeXPos();
+	ChangeXPos(data);
 
-	PrintPlayer(0);
+	PrintPlayer(data, 0);
 }

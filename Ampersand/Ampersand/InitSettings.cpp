@@ -1,27 +1,5 @@
 #include "InitSettings.h"
 
-// Entire Console Size : 224 * 124
-// Game Play Screen Size : 224 * 100
-// 나중에 좌표 변환 코드 작성 필요!!!!
-
-//const int SCREEN_COL = 224;
-int GetScreenCol(void) { return 224; }
-
-//const int SCREEN_ROW = 124;
-int GetScreenRow(void) { return 124; }
-
-//const int STAGE_COL = 224;
-int GetStageCol(void) { return 224; }
-
-//const int STAGE_ROW = 100;
-int GetStageRow(void) { return 100; }
-
-//const std::string GAME_TITLE = "I AM AMPERSAND";
-std::string GetGameTitle(void) { return "I AM AMPERSAND"; }
-
-//const int UPDATE_CYCLE = 32;
-int GetUpdateCycle(void) { return 32; }
-
 // Change console font to Raster
 // Font size is 8 X 8
 void InitConsoleFont(void)
@@ -42,7 +20,7 @@ void InitConsoleSize(void)
 {
 	SetWindowPos(GetConsoleWindow(), 0, 0, 0, 0, 0, SWP_NOZORDER);
 
-	std::string command = "mode con:cols=" + std::to_string(GetScreenCol()) + " lines=" + std::to_string(GetScreenRow()) + " | title " + GetGameTitle();
+	std::string command = "mode con:cols=" + std::to_string(SCREEN_COL) + " lines=" + std::to_string(SCREEN_ROW) + " | title " + TITLE;
 	system(command.c_str());
 }
 

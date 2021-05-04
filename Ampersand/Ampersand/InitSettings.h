@@ -4,15 +4,23 @@
 #include <iostream>
 #include <string>
 
-int GetScreenCol(void);
-int GetScreenRow(void);
+#define UPDATE_CYCLE 32
 
-int GetStageCol(void);
-int GetStageRow(void);
+#define SCREEN_COL 224
+#define SCREEN_ROW 124
 
-std::string GetGameTitle(void);
+#define STAGE_COL 224
+#define STAGE_ROW 100
 
-int GetUpdateCycle(void);
+#define TITLE "JUST THREE JUMP"
+
+#define GROUND '@'
+
+#define OBSTACLE '#'
+
+#define COIN '*'
+
+#define START_POINT '&'
 
 void InitConsoleFont(void);
 void InitConsoleSize(void);

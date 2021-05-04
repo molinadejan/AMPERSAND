@@ -1,5 +1,9 @@
 #include "PrintScreen.h"
 
+#include <Windows.h>
+#include <fstream>
+#include <iostream>
+
 std::string mainMenuString = "";
 
 // console cursor move to X, Y
@@ -26,6 +30,11 @@ void InitMainMenuString(void)
 	}
 
 	in.close();
+}
+
+void SetColor(unsigned short text, unsigned short back)
+{
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), text | (back << 4));
 }
 
 void PrintMainMenu(void)

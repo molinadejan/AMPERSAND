@@ -1,13 +1,13 @@
 #include "CoordData.h"
 
-coord WorldToScreen(const int x, const int y)
+COORD WorldToScreen(const SHORT x, const SHORT y)
 {
-	coord ret = { y, x + 12 };
+	COORD ret = { y, x + 12 };
 	return ret;
 }
 
-coord WorldToScreen(const coord &pos)
+COORD WorldToScreen(const COORD &pos)
 {
-	coord ret = { pos.y, pos.x + 12 };
+	COORD ret = { pos.Y, pos.X + 12 };
 	return ret;
 }

@@ -58,6 +58,6 @@ void UpdateMainMenu()
 				exit(0);
 		}
 
-		Sleep(GetUpdateCycle());
+		Sleep(UPDATE_CYCLE);
 	}
 }

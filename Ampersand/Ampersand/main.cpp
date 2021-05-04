@@ -1,10 +1,8 @@
 ﻿// Code for VS2017
 
 #include "InitSettings.h"
-#include "UserInput.h"
 #include "PrintScreen.h"
 #include "MainMenu.h"
-#include "Player.h"
 #include "PlayStage.h"
 
 using namespace std;
