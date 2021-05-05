@@ -1,22 +1,14 @@
 #include "PrintScreen.h"
 
+#include "InitSettings.h"
+#include "CoordData.h"
+
 #include <Windows.h>
 #include <fstream>
 #include <iostream>
+#include <string>
 
 std::string mainMenuString = "";
-
-// console cursor move to X, Y
-void CursorGoToXY(const int x, const int y)
-{
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), { (SHORT)x, (SHORT)y });
-}
-
-void PrintStringAtXY(const int x, const int y, const std::string &str)
-{
-	CursorGoToXY(x, y);
-	std::cout << str;
-}
 
 void InitMainMenuString(void)
 {
@@ -32,14 +24,18 @@ void InitMainMenuString(void)
 	in.close();
 }
 
-void SetColor(unsigned short text, unsigned short back)
-{
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), text | (back << 4));
-}
-
 void PrintMainMenu(void)
 {
-	std::cout << mainMenuString;
+	//std::cout << mainMenuString;
+}
+
+void PrintGameover(COORD pos)
+{
+	COORD _pos = WorldToScreen(pos);
+
+	WriteBothBuffer(_pos.X + 4, _pos.Y - 4, "       ");
+	WriteBothBuffer(_pos.X + 4, _pos.Y - 3, " oops! ");
+	WriteBothBuffer(_pos.X + 4, _pos.Y - 2, "       ");
 }
 
 void InitPrintScreen(void)

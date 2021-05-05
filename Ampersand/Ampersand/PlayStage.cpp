@@ -15,60 +15,57 @@ void InitStage(int &goalCnt, COORD& startPos, std::string fileName)
 	std::string inLine;
 	std::ifstream in(fileName);
 
-	int lineCnt = 0;
+	int lineCnt = 0, ran;
+	char c;
 	goalCnt = 0;
-	CursorGoToXY(0, 12);
 
 	while (std::getline(in, inLine))
 	{
-		stage[lineCnt++] = inLine;
+		stage[lineCnt] = inLine;
 
 		for (int i = 0; i < STAGE_COL; ++i)
 		{
-			char c = inLine[i];
+			c = inLine[i];
 
 			if (c == OBSTACLE)
 			{
-				int ran = rand() % 2;
+				ran = rand() % 2;
+				SetBothBufferColor(ran ? RED : RED_L, BLACK);
 
-				SetColor(ran ? RED : RED_L, BLACK);
-				std::cout << (ran ? OBSTACLE : '^');
+				c = ran ? OBSTACLE : OBSTACLE_0;
 			}
 			else if (c == COIN)
 			{
-				SetColor(YELLOW, YELLOW_L);
+				SetBothBufferColor(YELLOW, YELLOW_L);
 				++goalCnt;
-
-				std::cout << c;
 			}
 			else if (c == GROUND)
 			{
-				if(lineCnt == 1 || lineCnt == STAGE_ROW || i == 0 || i == STAGE_COL - 1)
-					SetColor(WHITE, rand() % 2 ? WHITE : WHITE_L);
-				else
-					SetColor(BLUE_L, rand() % 2 ? BLUE : BLUE_L);
+				ran = rand() % 2;
 
-				std::cout << (rand() % 2 ? GROUND : '%');
+				if(lineCnt == 0 || lineCnt == STAGE_ROW - 1 || i == 0 || i == STAGE_COL - 1)
+					SetBothBufferColor(WHITE, WHITE);
+				else
+					SetBothBufferColor(BLUE_L, rand() % 2 ? BLUE : BLUE_L);
+
+				c = ran ? GROUND : GROUND_0;
 			}
 			else if (c == START_POINT)
 			{
-				startPos = {SHORT(lineCnt - 1), SHORT(i)};
-				stage[lineCnt - 1][i] = ' ';
-				std::cout << ' ';
+				startPos = {SHORT(lineCnt), SHORT(i)};
+				stage[lineCnt][i] = ' ';
 			}
-			else
-			{
-				SetColor(WHITE, BLACK);
-				std::cout << c;
-			}
+			else SetBothBufferColor(WHITE, BLACK);
+
+			WriteBothBuffer(WorldToScreen(lineCnt, i), c);
 		}
 
-		std::cout << "\n";
+		++lineCnt;
 	}
 
 	in.close();
 
-	SetColor(WHITE, BLACK);
+	SetBothBufferColor(WHITE, BLACK);
 }
 
 char GetStageInfo(const int x, const int y)
@@ -89,19 +86,24 @@ void SetStageInfo(const int x, const int y, char c)
 
 void UpdatePlayStage(void)
 {
-	int life = 3, stageCnt = 1;
+	int life = LIFE, stageCnt = 4;
 
 	while (true)
 	{
-		int goalCount = 0, collisionCode, currentCoin = 0;
+		ShowLoadingBuffer();
+
+		int goalCnt = 0, collisionCode, currentCoin = 0;
 		COORD initPos;
 
-		InitStage(goalCount, initPos, "Stage"+ std::to_string(stageCnt) +".txt");
+		ClearBothBuffer();
+		InitStage(goalCnt, initPos, "Stage" + std::to_string(stageCnt) + ".txt");
 
 		playerData data(initPos);
 
-		PrintStringAtXY(3, 3, "Life : " + std::to_string(life));
-		PrintStringAtXY(3, 5, "Total Coin : " + std::to_string(goalCount));
+		WriteBothBuffer(3, 3, "Life : " + std::to_string(life));
+		WriteBothBuffer(3, 5, "Total Coin : " + std::to_string(goalCnt));
+
+		CloseLoadingBuffer();
 
 		while (true)
 		{
@@ -111,13 +113,16 @@ void UpdatePlayStage(void)
 			{
 				--life;
 
+				PrintGameover(data.pos);
+				Sleep(2000);
+
 				break;
 			}
 			else currentCoin += collisionCode;
 
-			PrintStringAtXY(3, 7, "Current Coin :" + std::to_string(currentCoin));
+			WriteCurrentBuffer(3, 7, "Current Coin :" + std::to_string(currentCoin));
 
-			if (currentCoin == goalCount)
+			if (currentCoin == goalCnt)
 			{
 				++stageCnt;
 
@@ -126,9 +131,10 @@ void UpdatePlayStage(void)
 
 			UpdatePlayer(data);
 
-			Sleep(UPDATE_CYCLE);
+			FlipDoubleBuffer(UPDATE_CYCLE);
 		}
 
-		if (life == 0 || stageCnt == 4) break;
+		if (life == 0 || stageCnt > STAGE_LAST)
+			break;
 	}
 }

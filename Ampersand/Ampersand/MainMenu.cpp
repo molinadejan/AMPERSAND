@@ -19,14 +19,14 @@ void PrintArrow(int menuNum)
 {
 	for (int i = 0; i < arrowLineCount / 2; ++i)
 	{
-		PrintStringAtXY(arrowMenu0Xpos, arrowYposStart + i, arrow[menuNum][i]);
-		PrintStringAtXY(arrowMenu1Xpos, arrowYposStart + i, arrow[1 - menuNum][i]);
+		//PrintStringAtXY(arrowMenu0Xpos, arrowYposStart + i, arrow[menuNum][i]);
+		//PrintStringAtXY(arrowMenu1Xpos, arrowYposStart + i, arrow[1 - menuNum][i]);
 	}
 
 	for (int i = arrowLineCount / 2; i < arrowLineCount; ++i)
 	{
-		PrintStringAtXY(arrowMenu0Xpos, arrowYposStart + i, arrow[menuNum][arrowLineCount - i - 1]);
-		PrintStringAtXY(arrowMenu1Xpos, arrowYposStart + i, arrow[1 - menuNum][arrowLineCount - i - 1]);
+		//PrintStringAtXY(arrowMenu0Xpos, arrowYposStart + i, arrow[menuNum][arrowLineCount - i - 1]);
+		//PrintStringAtXY(arrowMenu1Xpos, arrowYposStart + i, arrow[1 - menuNum][arrowLineCount - i - 1]);
 	}
 }
 

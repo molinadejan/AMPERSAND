@@ -7,7 +7,8 @@
 // player row = 5;
 // player col = 4;
 
-const std::string player[2][5] = { {"....","....","....","_  _","...."}, {"    ", "    ", "    ", "    ", "    "} };
+//const std::string player[2][5] = { {"....", "....","....","_  _","...."}, {"    ", "    ", "    ", "    ", "    "} };
+const std::string player[5] = {"    ", "    ","    ","    ","    "};
 
 const double GRAVITY = 500;
 const double T = UPDATE_CYCLE / 1000.0;
@@ -18,12 +19,12 @@ void PrintPlayer(playerData& data, int mode)
 	COORD screenCoord = WorldToScreen(data.pos);
 
 	if(mode == 0)
-		SetColor(GREEN_L, GREEN);
+		SetBothBufferColor(GREEN_L, GREEN);
 
 	for (int i = 0; i < 5; ++i)
-		PrintStringAtXY(screenCoord.X, screenCoord.Y - i, player[mode][i]);
+		WriteBothBuffer(screenCoord.X, screenCoord.Y - i, player[i]);
 
-	SetColor(WHITE, BLACK);
+	SetBothBufferColor(WHITE, BLACK);
 }
 
 void ChangeXPos(playerData& data)
@@ -111,7 +112,7 @@ int CheckCollision(playerData& data)
 		{
 			if (GetStageInfo(i, j) == OBSTACLE)
 			{
-				PrintStringAtXY(3, 9, "GAME OVER");
+				WriteCurrentBuffer(3, 9, "GAME OVER");
 				return - 1;
 			}
 			else if (GetStageInfo(i, j) == COIN)
