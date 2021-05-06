@@ -2,18 +2,26 @@
 
 #include "PlayerData.h"
 
-void PrintPlayer(playerData& data, int mode);
+// 플레이어 화면에 출력
+void PrintPlayer(const playerData& data, const int &mode);
 
-void ChangeXPos(playerData& data);
-void ChangeYPos(playerData& data, int yDir);
+// 플레이어 수직 이동
+void ChangeVerticalPos(playerData& data);
 
+// 플레이어 수평 이동
+void ChangeHorizontalPos(playerData& data, const int &yDir);
+
+// 플레이어 중력 적용
 void GetGravity(playerData& data);
-bool CheckGround(playerData& data, int xPos);
+
+// 플레이어 땅 위에 있는지 확인
+bool CheckGround(const playerData& data, const int &xPos);
+
+// 플레이어 점프
 void Jump(playerData& data);
 
-// 함정과 충돌 시 -1 반환
-// 탈출구와 충돌 시 -2 반환
-// 동전과 충돌시 동전의 개수 반환
-int CheckCollision(playerData& data);
+// 플레이어 충돌 체크, -1 : 장애물과 충돌, 0 또는 양의 정수 : 충돌한 코인의 개수
+int CheckCollision(const playerData& data);
 
-void UpdatePlayer(playerData& data);
+// 플레이어 루프
+void PlayerLoop(playerData& data);

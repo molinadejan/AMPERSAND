@@ -1,6 +1,6 @@
 #include "UserInput.h"
 
-#define CNT_MAX 1000000000
+#define CNT_MAX 10
 
 enum KEYBOARD
 {
@@ -13,7 +13,6 @@ enum KEYBOARD
 	KEYCHECK = 0x8000
 };
 
-// Left, Right Arrow Input for control player
 int GetInputLRForPlayer(void)
 {
 	int ret = 0;
@@ -26,35 +25,8 @@ int GetInputLRForPlayer(void)
 	return ret;
 }
 
-int justOneInputForLR = 0;
-
-// Left, Right Arrow Input for UI
-int GetInputLRForUI(void)
-{
-	int ret = 0;
-
-	if (GetAsyncKeyState(VK_RIGHT) & KEYCHECK)
-		ret = 1;
-	else if (GetAsyncKeyState(VK_LEFT) & KEYCHECK)
-		ret = -1;
-
-	if (ret)
-	{
-		++justOneInputForLR;
-
-		if (justOneInputForLR > CNT_MAX)
-			justOneInputForLR = 2;
-	}
-	else justOneInputForLR = 0;
-
-	if (ret && justOneInputForLR == 1) return ret;
-
-	return 0;
-}
-
 int justOneInputForSpace = 0;
 
-// Space Input
 bool GetInputSpace(void)
 {
 	bool check = false;
@@ -70,6 +42,8 @@ bool GetInputSpace(void)
 			justOneInputForSpace = 2;
 	}
 	else justOneInputForSpace = 0;
+
+	// 스페이스를 계속 누르고 있는 것 방지
 
 	if (check && justOneInputForSpace == 1) return true;
 

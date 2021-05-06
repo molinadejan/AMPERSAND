@@ -2,10 +2,8 @@
 
 #include <Windows.h>
 
-void InitMainMenuString(void);
-
-void PrintMainMenu(void);
-
+// 해당 위치(월드 좌표)에 게임오버 문자열 출력
 void PrintGameover(COORD pos);
 
-void InitPrintScreen(void);
+// 해당 위치(월드 좌표)에 스테이지 클리어 문자열 출력
+void PrintStageClear(COORD pos);

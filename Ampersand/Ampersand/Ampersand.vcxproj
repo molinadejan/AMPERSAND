@@ -152,18 +152,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CoordData.cpp" />
-    <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayStage.cpp" />
     <ClCompile Include="PrintScreen.cpp" />
-    <ClCompile Include="InitSettings.cpp" />
+    <ClCompile Include="BufferManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="UserInput.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CoordData.h" />
-    <ClInclude Include="InitSettings.h" />
-    <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="BufferManager.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerData.h" />
     <ClInclude Include="PlayStage.h" />

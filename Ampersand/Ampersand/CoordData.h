@@ -1,6 +1,7 @@
 #pragma once
 
-#include "InitSettings.h"
+#include "BufferManager.h"
 
-COORD WorldToScreen(const SHORT x, const SHORT y);
+// 월드 좌표를 스크린 좌표로 변환
+COORD WorldToScreen(const SHORT &x, const SHORT &y);
 COORD WorldToScreen(const COORD &pos);
