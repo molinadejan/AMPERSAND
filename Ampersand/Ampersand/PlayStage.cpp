@@ -135,9 +135,6 @@ void MainLoop(void)
 		// 로딩 화면 버퍼 숨기기
 		CloseLoadingBuffer();
 
-		//if(stageCnt == 0)
-			//PlaySound(TEXT("Start.wav"), 0, SND_FILENAME | SND_ASYNC | SND_LOOP);
-
 		// 게임 루프
 		while (true)
 		{
