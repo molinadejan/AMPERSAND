@@ -7,6 +7,9 @@
 \
 #include <fstream>
 
+#include <mmsystem.h>
+#pragma comment(lib, "winmm.lib")
+
 // 스테이지 문자열로 저장
 static std::string stage[100];
 
@@ -132,6 +135,9 @@ void MainLoop(void)
 		// 로딩 화면 버퍼 숨기기
 		CloseLoadingBuffer();
 
+		//if(stageCnt == 0)
+			//PlaySound(TEXT("Start.wav"), 0, SND_FILENAME | SND_ASYNC | SND_LOOP);
+
 		// 게임 루프
 		while (true)
 		{
@@ -139,15 +145,22 @@ void MainLoop(void)
 			if ((colCnt = CheckCollision(data)) == -1)
 			{
 				--life;
-
 				PrintGameover(data.pos);
+				PlaySound(TEXT("Die.wav"), 0, SND_FILENAME | SND_ASYNC);
+
 				Sleep(2000);
 
 				break;
 			}
 			
 			// 코인 추가
-			currentCoin += colCnt;
+			if (colCnt > 0)
+			{
+				currentCoin += colCnt;
+
+				if(currentCoin != goalCnt)
+					PlaySound(TEXT("Coin.wav"), 0, SND_FILENAME | SND_ASYNC);
+			}
 
 			// 좌상단에 정보 출력
 			if(stageCnt)
@@ -157,6 +170,8 @@ void MainLoop(void)
 			if (currentCoin == goalCnt)
 			{
 				++stageCnt;
+
+				PlaySound(TEXT("MUYAHO.wav"), 0, SND_FILENAME | SND_ASYNC);
 
 				PrintStageClear(data.pos);
 				Sleep(2000);
@@ -175,16 +190,18 @@ void MainLoop(void)
 		if (life == 0)
 		{
 			ShowLoadingBuffer("Game Over...");
+			PlaySound(TEXT("Gameover.wav"), 0, SND_FILENAME | SND_ASYNC);
 
 			stageCnt = 0;
 			life = LIFE;
 
-			Sleep(5000);
+			Sleep(6000);
 		}
 		// 마지막 스테이지 까지 클리어
 		else if (stageCnt > STAGE_LAST)
 		{
 			ShowLoadingBuffer("Game Clear!!!");
+			PlaySound(TEXT("GameClear.wav"), 0, SND_FILENAME | SND_ASYNC);
 
 			stageCnt = 0;
 			life = LIFE;
