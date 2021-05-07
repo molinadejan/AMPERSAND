@@ -16,7 +16,7 @@
 #define START_POINT '&'
 
 // GAME DATA
-#define STAGE_LAST 6
+#define STAGE_LAST 7
 #define LIFE 10
 
 // 스테이지 초기화
