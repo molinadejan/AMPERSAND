@@ -30,10 +30,10 @@
     <ClCompile Include="Player.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="PlayStage.cpp">
+    <ClCompile Include="BufferManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="BufferManager.cpp">
+    <ClCompile Include="Stage.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -50,13 +50,13 @@
     <ClInclude Include="Player.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="PlayStage.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerData.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="BufferManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

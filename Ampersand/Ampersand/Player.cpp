@@ -1,7 +1,7 @@
 #include "Player.h"
 
 #include "CoordData.h"
-#include "PlayStage.h"
+#include "Stage.h"
 #include "UserInput.h"
 #include "BufferManager.h"
 

@@ -28,5 +28,5 @@ char GetStageInfo(const int &x, const int &y);
 // 스테이지 설정
 void SetStageInfo(const int &x, const int &y, const char c);
 
-// 메인 루프
-void MainLoop(void);
+// 게임 오버, 클리어 체크
+void GameFinish(int * const stage, int * const life);

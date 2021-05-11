@@ -123,6 +123,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -153,7 +154,7 @@
   <ItemGroup>
     <ClCompile Include="CoordData.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PlayStage.cpp" />
+    <ClCompile Include="Stage.cpp" />
     <ClCompile Include="PrintScreen.cpp" />
     <ClCompile Include="BufferManager.cpp" />
     <ClCompile Include="main.cpp" />
@@ -164,7 +165,7 @@
     <ClInclude Include="BufferManager.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerData.h" />
-    <ClInclude Include="PlayStage.h" />
+    <ClInclude Include="Stage.h" />
     <ClInclude Include="PrintScreen.h" />
     <ClInclude Include="UserInput.h" />
   </ItemGroup>
